@@ -1,31 +1,45 @@
-import Encore from '@symfony/webpack-encore';
 
-if(!Encore.isRuntimeEnvironmentConfigured()) {
-  Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
-}
+import path from 'path';
+import {fileURLToPath} from 'url';
 
-Encore
-  .enableSingleRuntimeChunk()
-  // .splitEntryChunks()
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
-  .setOutputPath('dist')
-  .setPublicPath('/')
-  .addEntry('main', './src/js/index.js')
-  // .setManifestKeyPrefix('')
+export default {
+  mode: 'production',
 
-  .cleanupOutputBeforeBuild()
+  entry: {
+    main: path.resolve(dirname, 'src/js/index'),
+  },
 
-  .configureBabelPresetEnv((config) => {
-    config.useBuiltIns = 'usage';
-    config.corejs = 3;
-    // config.targets.esmodules = true;
-    config.shippedProposals = true;
-    config.debug = true;
-  })
-;
+  output: {
+    path: path.resolve(dirname, 'dist'),
+    publicPath: '/',
+  },
 
-const config = Encore.getWebpackConfig();
+  optimization: {
+    runtimeChunk: 'single',
+  },
 
-
-export default config;
-
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: [/node_modules/],
+        use: {
+          loader: 'babel-loader',
+          options: {
+          presets: [
+            ['@babel/preset-env', {
+              modules: false,
+              useBuiltIns: 'usage',
+              corejs: 3,
+              shippedProposals: true,
+              debug: true,
+            }]
+          ]
+        }
+        },
+      },
+    ]
+  }
+};
