@@ -1,6 +1,5 @@
 {
   "name": "encore",
-  "type": "module",
   "scripts": {
     "build": "encore production --progress",
     "dev-server": "encore dev-server",
