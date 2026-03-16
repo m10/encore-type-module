@@ -12,9 +12,9 @@
     "ie 11"
   ],
   "dependencies": {
-    "core-js": "^3.38.1"
+    "core-js": "^3.48.0"
   },
   "devDependencies": {
-    "@symfony/webpack-encore": "4.7.0"
+    "@symfony/webpack-encore": "6.0.0"
   }
 }
